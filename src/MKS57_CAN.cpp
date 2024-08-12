@@ -148,6 +148,79 @@ MKS57_CAN::MKS57_CAN(int txPin, int rxPin, long baudRate, int txBuffer, int rxBu
 
       }
 
+      void MKS57_CAN::saveWorkMode(int id, int mode){
+
+        message.identifier  = id;
+        message.extd  = 0;
+        message.data_length_code  = 3;
+        message.data[0] = 0x82;
+        message.data[1] = mode;
+        message.data[2] = calculateChecksum(id, message.data, 3);
+        ESP32Can.writeFrame(&message);
+
+      }
+
+      void MKS57_CAN::releaseProtectionShaft(int id){
+
+        message.identifier  = id;
+        message.extd  = 0;
+        message.data_length_code  = 2;
+        message.data[0] = 0x3D;
+        message.data[1] = calculateChecksum(id, message.data, 2 );
+        ESP32Can.writeFrame(&message);
+
+      }
+
+      int MKS57_CAN::readEncoderValue(int id){
+
+        message.identifier  = id;
+        message.extd  = 0;
+        message.data_length_code  = 2;
+        message.data[0] = 0x30;
+        message.data[1] = calculateChecksum(id, mesage.data,  2);
+        ESP32Can.writeFrame(&message);
+
+        if ((ESP32Can.readFrame(rxFrame, 10)))
+        {
+          if(rxFrame.identifier ==  id){
+            int encoderValue  = (rxFrame  >>  1)  & 0b111111;
+            return  encoderValue;
+          }else{
+            return  null;
+          }
+        }
+
+        int MKS57_CAN::getRealTimeSpeed(int id){
+
+          message.identifier  = id;
+          message.extd  = 0;
+          message.data_length_code  = 2;
+          message.data[0] = 0x32;
+          message.data[1] = calculateChecksum(id, message.data, 2);
+          ESP32Can.writeFrame(&message);
+
+          if  (ESP32Can.readFrame(rxFrame,  10)){
+
+            if(rxFrame.identifier ==  id){
+
+              int speed = (rxFrame >> 1)  & 0b11;
+              return speed;
+
+            }else{
+
+              return null;
+            }
+
+          }
+
+
+
+        }
+        
+
+
+      }
+
 
 
 
