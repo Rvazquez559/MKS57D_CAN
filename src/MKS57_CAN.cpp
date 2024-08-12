@@ -183,7 +183,7 @@ MKS57_CAN::MKS57_CAN(int txPin, int rxPin, long baudRate, int txBuffer, int rxBu
         if ((ESP32Can.readFrame(rxFrame, 10)))
         {
           if(rxFrame.identifier ==  id){
-            int encoderValue  = (rxFrame  >>  1)  & 0b111111;
+            int encoderValue  = (rxFrame.data  >>  1)  & 0b111111;
             return  encoderValue;
           }else{
             return  0;
@@ -203,7 +203,7 @@ MKS57_CAN::MKS57_CAN(int txPin, int rxPin, long baudRate, int txBuffer, int rxBu
 
             if(rxFrame.identifier ==  id){
 
-              int speed = (rxFrame >> 1)  & 0b11;
+              int speed = (rxFrame.data >> 1)  & 0b11;
               return speed;
 
             }else{
