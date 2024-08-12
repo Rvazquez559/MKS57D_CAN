@@ -177,7 +177,7 @@ MKS57_CAN::MKS57_CAN(int txPin, int rxPin, long baudRate, int txBuffer, int rxBu
         message.extd  = 0;
         message.data_length_code  = 2;
         message.data[0] = 0x30;
-        message.data[1] = calculateChecksum(id, mesage.data,  2);
+        message.data[1] = calculateChecksum(id, message.data,  2);
         ESP32Can.writeFrame(&message);
 
         if ((ESP32Can.readFrame(rxFrame, 10)))
@@ -186,7 +186,7 @@ MKS57_CAN::MKS57_CAN(int txPin, int rxPin, long baudRate, int txBuffer, int rxBu
             int encoderValue  = (rxFrame  >>  1)  & 0b111111;
             return  encoderValue;
           }else{
-            return  null;
+            return  0;
           }
         }
 
@@ -208,7 +208,7 @@ MKS57_CAN::MKS57_CAN(int txPin, int rxPin, long baudRate, int txBuffer, int rxBu
 
             }else{
 
-              return null;
+              return 0;
             }
 
           }
