@@ -1,0 +1,23 @@
++++++++++++++++++++++++++++++++++
+class 
++++++++++++++++++++++++++++++++++
+MKS57_CAN	KEYWORD1
++++++++++++++++++++++++++++++++++
+FUNCTIONS
++++++++++++++++++++++++++++++++++
+begin	KEYWORD2
+sendPositionMode4Message	KEYWORD2
+sendPositionMode2Message	KEYWORD2
+setZero	KEYWORD2
+goHome	KEYWORD2
+emergencyStop	KEYWORD2
+enableMotor	KEYWORD2
+setCanId	KEYWORD2
+calibrateEncoder	KEYWORD2
+enableProtection	KEYWORD2
+restartDriver	KEYWORD2	
+readEncoderValue	KEYWORD2
+releaseProtectionShaft	KEYWORD2
+saveWorkMode	KEYWORD2
+getRealTimeSpeed	KEYWORD2
++++++++++++++++++++++++++++++++++
