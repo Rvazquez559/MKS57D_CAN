@@ -1,5 +1,5 @@
 /* 
- * This file is part of the CGx-InverseK distribution (https://github.com/Rvazquez559/MKS57D_CAN).
+ * This file is part of the distribution (https://github.com/Rvazquez559/MKS57D_CAN).
  * Copyright (c) 2024 Roberto Vazquez.
  * 
  * This program is free software: you can redistribute it and/or modify  
