@@ -24,28 +24,46 @@
 class MKS57_CAN{
 
     public:
-
+//Constructor  set TX, RX, Baudrate & buffer size
     MKS57_CAN(int txPin, int rxPin, long baudRate, int txBuffer, int rxBuffer);
-    bool begin();
-    void sendPositionMode4Message(int id, uint16_t speed, uint8_t acc, int32_t absAxis);
-    void sendPositionMode2Message(int id, uint16_t speed, uint8_t acc, int32_t pulses);
-    void setZero(int id);
-    void goHome(int id);
-    void emergencyStop(int id);
-    void enableMotor(int id, byte state);
-    void setCanId(int id, int newId);
-    void calibrateEncoder(int id);
-    void enableProtection(int id, byte state);
-    void restartDriver(int id);
 
+//Auxiliary functions
+
+//Initialize interface with CAN and the MKS driver
+    bool begin();
+//Send position mode 4 command, indicate CAN id, speed, acceleration, absolute position in degrees
+    void sendPositionMode4Message(int id, uint16_t speed, uint8_t acc, int32_t absAxis);
+//Send position mode 2 command, indicate CAN id, speed, acceleration,    absolute position in pulses
+    void sendPositionMode2Message(int id, uint16_t speed, uint8_t acc, int32_t pulses);
+//Set current position a home position, this will reset any count
+    void setZero(int id);
+//Go back to zero position
+    void goHome(int id);
+//Stop the stepper motor, interrupt any action
+    void emergencyStop(int id);
+//Enable or disable motor control
+    void enableMotor(int id, byte state);
+//Change driver CAN id, specify target id and new id to be set
+    void setCanId(int id, int newId);
+//Send command to calibrate encoder
+    void calibrateEncoder(int id);
+//Set obstruction protection enabled or disabled. This will stop driver is there is too much physical resistance
+    void enableProtection(int id, byte state);
+//Restart driver
+    void restartDriver(int id);
+//Read current encoder value
     int readEncoderValue(int id);
+//Release protection mode after trigger
     void releaseProtectionShaft(int id);
+//Set working mode 
     void saveWorkMode(int id, int mode);/*mode = 0 CR_OPEN, mode = 1 CR_CLOSE, mode = 2 CR_vFOC, mode = 3 SR_OPEN, mode = 4 SR_CLOSE,   mode = 5 SR_vFOC*/
+//Get current motor speed
     int getRealTimeSpeed(int id);
     
 
     private:
 
+//Define CAN interface variables
     int _txPin, _rxPin, _txBuffer, _rxBuffer;
     long  _baudRate;
     CanFrame message;
