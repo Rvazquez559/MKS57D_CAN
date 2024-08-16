@@ -71,6 +71,36 @@ MKS57_CAN::MKS57_CAN(int txPin, int rxPin, long baudRate, int txBuffer, int rxBu
       message.data[6] = absAxis & 0xFF;
       message.data[7] = calculateChecksum(id, message.data, 8);
       ESP32Can.writeFrame(&message);
+      
+      }
+
+      int MKS57_CAN::stepsToMm(int steps){
+        
+        int stepsPerRevolution  = 200;
+        int microStep = 16;
+        int beltPitch = 2;
+        int pulleyTeeth = 20;
+        
+        int stepsPerRevolution  = (stepsPerRevolution * microStep)  / (beltPitch  * pulleyTeeth);
+        return  stepsPerRevolution;
+
+      }
+      
+      void MKS57_CAN::sendPositionModeMm(int id,  uint16_t speed, uint8_t acc, int32_t pulses){
+      
+      message.identifier  = id;
+      message.extd  = 0;
+      message.data_length_code  = 8;
+      message.data[0] = 0xFE;
+      message.data[1] = (speed >> 8) & 0xFF;
+      message.data[2] = speed & 0xFF;
+      message.data[3] = acc;
+      message.data[4] = (stepsToMm(pulses) >> 16) & 0xFF;
+      message.data[5] = (stepsToMm(pulses) >> 8) & 0xFF;
+      message.data[6] = pulses & 0xFF;
+      message.data[7] = calculateChecksum(id, message.data, 8);
+      ESP32Can.writeFrame(&message);
+      
       }
 
       void  MKS57_CAN::setZero(int id){

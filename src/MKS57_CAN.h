@@ -35,6 +35,10 @@ class MKS57_CAN{
     void sendPositionMode4Message(int id, uint16_t speed, uint8_t acc, int32_t absAxis);
 //Send position mode 2 command, indicate CAN id, speed, acceleration,    absolute position in pulses
     void sendPositionMode2Message(int id, uint16_t speed, uint8_t acc, int32_t pulses);
+//Send position mode steps to mm
+    void sendPositionModeMm(int id, uint16_t speed, uint8_t acc, int32_t);
+//Convert steps to mm
+    int  stepsToMm(int steps);
 //Set current position a home position, this will reset any count
     void setZero(int id);
 //Go back to zero position
@@ -64,6 +68,7 @@ class MKS57_CAN{
     private:
 
 //Define CAN interface variables
+    int stepsPerMm;
     int _txPin, _rxPin, _txBuffer, _rxBuffer;
     long  _baudRate;
     CanFrame message;
